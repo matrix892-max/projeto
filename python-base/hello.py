@@ -29,3 +29,9 @@
 print("Hello World!")
 print('marciano penaforte'.upper())
 print(1 + 15)
+
+
+input("Pressione Enter para fechar...")
+
+
+
