@@ -1,4 +1,0 @@
-# Adicione suas dependências aqui
-# Exemplo:
-# requests==2.31.0
-# numpy==1.26.0
