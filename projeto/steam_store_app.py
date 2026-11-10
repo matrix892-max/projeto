@@ -50,13 +50,15 @@ def obter_json(url, parametros):
 def interpretar_resultados(html):
     sopa = BeautifulSoup(html, "html.parser")
     jogos = []
+    ids_encontrados = set()
 
     for linha in sopa.select("a.search_result_row"):
         app_id = linha.get("data-ds-appid", "").split(",")[0].strip()
         titulo = linha.select_one(".title")
-        if not app_id.isdigit() or titulo is None:
+        if not app_id.isdigit() or titulo is None or app_id in ids_encontrados:
             continue
 
+        ids_encontrados.add(app_id)
         imagem = linha.select_one(".search_capsule img")
         lancamento = linha.select_one(".search_released")
         plataformas = {
@@ -184,7 +186,10 @@ if jogos:
                 )
                 coluna_detalhes, coluna_loja = st.columns(2)
                 with coluna_detalhes:
-                    if st.button("Mais informações", key=f"detalhes_{jogo['id']}"):
+                    if st.button(
+                        "Mais informações",
+                        key=f"detalhes_{st.session_state.steam_page}_{indice}_{jogo['id']}",
+                    ):
                         st.session_state.steam_detail_id = jogo["id"]
                         st.rerun()
                 with coluna_loja:
